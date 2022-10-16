@@ -12,7 +12,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ text, href }) => {
 			_hover={{ backgroundColor: 'gray.100', transition: '200ms all' }}
 			color={`gray.600`}
 			fontSize={`18px`}
-			p={`1px 8px`}
+			p={`8px 16px`}
 			borderRadius={`5px`}
 		>
 			<Link href={`/${href}`}>
