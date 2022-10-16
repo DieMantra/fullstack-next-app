@@ -1,6 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth from 'next-auth';
 import TwitterProvider from 'next-auth/providers/twitter';
+import { signIn } from 'next-auth/react';
 import prisma from '../../../lib/prismadb';
 
 export default NextAuth({
@@ -12,4 +13,9 @@ export default NextAuth({
 			version: '2.0',
 		}),
 	],
+	// callbacks: {
+	// 	async signIn({}) {
+	// 	return '/logged';
+	// 	},
+	// },
 });

@@ -1,20 +1,45 @@
+import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 
-const logged: NextPage = ({ session, hello }) => {
-	console.log('Session >>>>>', session);
-
-	return <div>logged In {hello}</div>;
+type loggedInPageProps = {
+	session: {
+		user: {
+			name: string | null;
+			email: string | null;
+			image: string | null;
+		};
+	} | null;
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-	const session = await getSession({ req });
-	console.log('First Session >>>>>', session);
+const logged: NextPage<loggedInPageProps> = ({ session }) => {
+	return (
+		<Container py={`64px`}>
+			<Center>
+				<Flex flexDirection={`column`}>
+					<Text mb={`24px`}>Welcome back {session?.user.name}! 😍</Text>
+					<Button onClick={() => signOut()}>Log out</Button>
+				</Flex>
+			</Center>
+		</Container>
+	);
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const session = await getSession(context);
+
+	if (!session?.user) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
 
 	return {
 		props: {
 			session,
-			hello: 'Hello',
 		},
 	};
 };
