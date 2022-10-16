@@ -17,7 +17,7 @@ const logged: NextPage<loggedInPageProps> = ({ session }) => {
 		<Container py={`64px`}>
 			<Center>
 				<Flex flexDirection={`column`}>
-					<Text mb={`24px`}>Welcome back {session?.user.name}! 😍</Text>
+					<Text mb={`24px`}>Welcome back - {session?.user.name}! 😍</Text>
 					<Button onClick={() => signOut()}>Log out</Button>
 				</Flex>
 			</Center>
