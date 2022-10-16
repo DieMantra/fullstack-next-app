@@ -1,6 +1,25 @@
 import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import { MenuItem } from '../../molecules/MenuItem/MenuItem';
+
+// export default function Component() {
+//   const { data: session } = useSession()
+//   if (session) {
+//     return (
+//       <>
+//         Signed in as {session.user.email} <br />
+//         <button onClick={() => signOut()}>Sign out</button>
+//       </>
+//     )
+//   }
+//   return (
+//     <>
+//       Not signed in <br />
+//       <button onClick={() => signIn()}>Sign in</button>
+//     </>
+//   )
+// }
 
 export const TopBar = () => {
 	const breakPoints = ['xs', 'sm', 'md', 'lg'];
@@ -33,7 +52,11 @@ export const TopBar = () => {
 					<MenuItem text={`Pricing`} href={`pricing`} />
 				</HStack>
 				<Flex marginLeft={`82px`}>
-					<Button variant={`solid`} colorScheme={`blue`}>
+					<Button
+						variant={`solid`}
+						colorScheme={`blue`}
+						onClick={() => signIn()}
+					>
 						Get Started
 					</Button>
 				</Flex>
