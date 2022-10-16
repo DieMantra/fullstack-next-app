@@ -13,9 +13,5 @@ export default NextAuth({
 			version: '2.0',
 		}),
 	],
-	// callbacks: {
-	// 	async signIn({}) {
-	// 	return '/logged';
-	// 	},
-	// },
+	secret: process.env.NEXTAUTH_SECRET,
 });
