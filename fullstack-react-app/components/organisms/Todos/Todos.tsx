@@ -1,7 +1,15 @@
-import { Todo } from '.prisma/client';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Checkbox, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 import React from 'react';
+
+type Todo = {
+	id: string;
+	userId: string;
+	title: string;
+	isCompleted: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+};
 
 type TodosProps = {
 	todos: Todo[];
