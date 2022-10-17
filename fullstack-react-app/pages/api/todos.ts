@@ -22,6 +22,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		// Return all the todos for current user
 		const userSession: UserSession = session as UserSession;
 		const todos = await prisma.todo.findMany({
+			orderBy: [
+				{
+					createdAt: 'desc',
+				},
+			],
 			where: {
 				userId: userSession.userId,
 			},

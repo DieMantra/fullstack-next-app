@@ -5,6 +5,10 @@ import { getSession } from 'next-auth/react';
 import { UserSession } from '../auth/[...nextauth]';
 
 const prisma = new PrismaClient();
+type TodoUpdate = {
+	title?: string;
+	isCompleted?: boolean;
+};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	// RETURN IF UNAUTHORIZE
@@ -24,20 +28,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	// MAKING REQUESTS //
 	if (req.method === 'PUT') {
 		const { pid } = req.query;
-		const { title } = req.body;
+		const { title, isCompleted }: { title: string; isCompleted: boolean } =
+			req.body;
 		const id = pid?.toString();
 		if (!id) {
 			return res.status(401).send('Some Shit Went Wrong (No ID?)');
 		}
+
+		const updatedData: TodoUpdate = {};
+		if (typeof title === 'string') updatedData.title = title;
+		if (typeof isCompleted === 'boolean') updatedData.isCompleted = isCompleted;
 
 		const userSession: UserSession = session as UserSession;
 		const todo = await prisma.todo.update({
 			where: {
 				id,
 			},
-			data: {
-				title,
-			},
+			data: updatedData,
 		});
 
 		return res.json(todo);
