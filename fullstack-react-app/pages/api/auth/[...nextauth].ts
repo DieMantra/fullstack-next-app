@@ -1,8 +1,20 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import NextAuth from 'next-auth';
+import { PrismaClient } from '@prisma/client';
+import NextAuth, { Session, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import TwitterProvider from 'next-auth/providers/twitter';
-import { signIn } from 'next-auth/react';
-import prisma from '../../../lib/prismadb';
+
+const prisma = new PrismaClient();
+
+export type UserSession = {
+	userId: string;
+} & Session;
+
+type SessionArg = {
+	session: Session;
+	user: User;
+	token: JWT;
+};
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
@@ -13,5 +25,13 @@ export default NextAuth({
 			version: '2.0',
 		}),
 	],
+	callbacks: {
+		session: async ({ session, user }: SessionArg) => {
+			// @ts-ignore
+			// Adding on a new field to session (Couldn't workout how to write the type correctly)
+			session.userId = user.id;
+			return Promise.resolve(session as UserSession);
+		},
+	},
 	secret: process.env.NEXTAUTH_SECRET,
 });
