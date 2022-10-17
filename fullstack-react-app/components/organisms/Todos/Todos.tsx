@@ -1,5 +1,6 @@
 import { Todo } from '.prisma/client';
-import { Checkbox, Flex, Heading, Input } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { Checkbox, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 import React from 'react';
 
 type TodosProps = {
@@ -7,6 +8,7 @@ type TodosProps = {
 	loader: JSX.Element | string;
 	onTodoBlur: (todoId: string, newTitle: string) => void;
 	onTodoCompleteToggle: (todoId: string, isCompleted: Boolean) => void;
+	onTodoDelete: (id: string) => void;
 };
 
 const Todos: React.FC<TodosProps> = ({
@@ -14,6 +16,7 @@ const Todos: React.FC<TodosProps> = ({
 	loader,
 	onTodoBlur,
 	onTodoCompleteToggle,
+	onTodoDelete,
 }) => {
 	return (
 		<div
@@ -53,6 +56,13 @@ const Todos: React.FC<TodosProps> = ({
 						<Checkbox
 							isChecked={todo.isCompleted}
 							onChange={(e) => onTodoCompleteToggle(todo.id, e.target.checked)}
+						/>
+						<IconButton
+							aria-label={'Delete Todo'}
+							icon={<DeleteIcon />}
+							colorScheme={`red`}
+							size={`xs`}
+							onClick={() => onTodoDelete(todo.id)}
 						/>
 					</Flex>
 				);

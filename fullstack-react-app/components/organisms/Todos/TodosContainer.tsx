@@ -11,8 +11,9 @@ const fetchTodos = async () => {
 type TodosContainerProps = {
 	refreshTodoToken: String;
 };
-type onTodoBlurFunc = (todoId: string, newTitle: string) => void;
-type onTodoCompleteToggleFun = (todoId: string, isCompleted: Boolean) => void;
+type OnTodoBlurFunc = (todoId: string, newTitle: string) => void;
+type OnTodoCompleteToggleFun = (todoId: string, isCompleted: Boolean) => void;
+type OnTodoDeleteFunc = (todoId: string) => void;
 
 const TodosContainer: React.FC<TodosContainerProps> = ({
 	refreshTodoToken,
@@ -34,13 +35,14 @@ const TodosContainer: React.FC<TodosContainerProps> = ({
 			.finally(() => setIsLoading(false));
 	}, [refreshTodoToken, completedToken]);
 
-	const onTodoBlur: onTodoBlurFunc = (todoId, newTitle) => {
+	// ON ACTIONS
+	const onTodoBlur: OnTodoBlurFunc = (todoId, newTitle) => {
 		setIsLoading(true);
 		axios.put(`/api/todo/${todoId}`, {
 			title: newTitle,
 		});
 	};
-	const onTodoCompleteToggle: onTodoCompleteToggleFun = (
+	const onTodoCompleteToggle: OnTodoCompleteToggleFun = (
 		todoId,
 		isCompleted
 	) => {
@@ -53,7 +55,15 @@ const TodosContainer: React.FC<TodosContainerProps> = ({
 				setCompletedToken(Math.random().toString());
 			});
 	};
+	const onTodoDelete: OnTodoDeleteFunc = (todoId) => {
+		setIsLoading(true);
+		axios.delete(`/api/todo/${todoId}`).finally(() => {
+			setCompletedToken(Math.random().toString());
+		});
+	};
+	//
 
+	// LOADING AND ERROS
 	if (isError) {
 		return (
 			<div
@@ -68,7 +78,6 @@ const TodosContainer: React.FC<TodosContainerProps> = ({
 			</div>
 		);
 	}
-
 	const loader = (
 		<div
 			style={{
@@ -81,13 +90,14 @@ const TodosContainer: React.FC<TodosContainerProps> = ({
 			<img src='/loaders/puff.svg' style={{ width: '5rem' }} />
 		</div>
 	);
-
+	//
 	return (
 		<Todos
 			todos={todos}
 			loader={isLoading ? loader : ''}
 			onTodoBlur={onTodoBlur}
 			onTodoCompleteToggle={onTodoCompleteToggle}
+			onTodoDelete={onTodoDelete}
 		/>
 	);
 };

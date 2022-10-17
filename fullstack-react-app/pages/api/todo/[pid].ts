@@ -50,8 +50,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return res.json(todo);
 	}
 	if (req.method === 'DELETE') {
-		// DELETE /API/TODO:id -> DELETE TODO
-		return res.json('');
+		// DELETE /API/TODO:id -> DELETE TODO		const { pid } = req.query;
+		const { pid } = req.query;
+		const id = pid?.toString();
+
+		const todo = await prisma.todo.delete({
+			where: {
+				id,
+			},
+		});
+
+		return res.json(todo);
 	}
 };
 export default handler;
