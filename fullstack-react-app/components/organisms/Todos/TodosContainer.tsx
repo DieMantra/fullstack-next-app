@@ -87,7 +87,7 @@ const TodosContainer: React.FC<TodosContainerProps> = ({
 				marginTop: '36px',
 			}}
 		>
-			<img src='/loaders/puff.svg' style={{ width: '5rem' }} />
+			<img src='/loaders/puff.svg' style={{ width: '5rem' }} alt='Loading' />
 		</div>
 	);
 	//

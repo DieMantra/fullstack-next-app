@@ -15,7 +15,7 @@ type loggedInPageProps = {
 	} | null;
 };
 
-const logged: NextPage<loggedInPageProps> = ({ session }) => {
+const Logged: NextPage<loggedInPageProps> = ({ session }) => {
 	const [refreshTodoToken, setRefreshTodoToken] = useState<string>('');
 
 	return (
@@ -54,4 +54,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
-export default logged;
+export default Logged;
