@@ -36,8 +36,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 
 		const updatedData: TodoUpdate = {};
-		if (typeof title === 'string') updatedData.title = title;
-		if (typeof isCompleted === 'boolean') updatedData.isCompleted = isCompleted;
+		if (title) updatedData.title = title;
+		if (isCompleted !== undefined) updatedData.isCompleted = isCompleted;
 
 		const userSession: UserSession = session as UserSession;
 		const todo = await prisma.todo.update({

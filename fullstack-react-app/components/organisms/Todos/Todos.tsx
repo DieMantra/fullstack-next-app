@@ -41,7 +41,13 @@ const Todos: React.FC<TodosProps> = ({
 			</Heading>
 			{todos?.map((todo, i) => {
 				return (
-					<Flex key={todo.id} gap={`12px`} my={`4px`} align={`center`}>
+					<Flex
+						key={todo.id}
+						gap={`12px`}
+						my={`4px`}
+						align={`center`}
+						role={`group`}
+					>
 						<Input
 							defaultValue={todo.title}
 							variant={`flushed`}
@@ -52,17 +58,23 @@ const Todos: React.FC<TodosProps> = ({
 								if (todo.title === e.target.value) return;
 								onTodoBlur(todo.id, e.target.value);
 							}}
+							overflowX={`scroll`}
+						/>
+
+						<IconButton
+							aria-label={'Delete Todo'}
+							icon={<DeleteIcon />}
+							variant={`ghost`}
+							colorScheme={`red`}
+							size={`sm`}
+							onClick={() => onTodoDelete(todo.id)}
+							opacity={`0`}
+							display={`none`}
+							_groupHover={{ opacity: '1', display: 'flex' }}
 						/>
 						<Checkbox
 							isChecked={todo.isCompleted}
 							onChange={(e) => onTodoCompleteToggle(todo.id, e.target.checked)}
-						/>
-						<IconButton
-							aria-label={'Delete Todo'}
-							icon={<DeleteIcon />}
-							colorScheme={`red`}
-							size={`xs`}
-							onClick={() => onTodoDelete(todo.id)}
 						/>
 					</Flex>
 				);
