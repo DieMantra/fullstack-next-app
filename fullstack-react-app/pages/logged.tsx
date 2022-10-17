@@ -1,6 +1,7 @@
 import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { getSession, signOut } from 'next-auth/react';
+import TodosContainer from '../components/organisms/Todos/TodosContainer';
 
 type loggedInPageProps = {
 	session: {
@@ -19,6 +20,8 @@ const logged: NextPage<loggedInPageProps> = ({ session }) => {
 				<Flex flexDirection={`column`}>
 					<Text mb={`24px`}>Welcome back - {session?.user.name}! 😍</Text>
 					<Button onClick={() => signOut()}>Log out</Button>
+
+					<TodosContainer />
 				</Flex>
 			</Center>
 		</Container>
