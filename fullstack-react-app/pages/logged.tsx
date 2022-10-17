@@ -1,6 +1,8 @@
 import { Button, Center, Container, Flex, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { getSession, signOut } from 'next-auth/react';
+import { useState } from 'react';
+import TodoCreator from '../components/molecules/NewTodo/TodoCreator';
 import TodosContainer from '../components/organisms/Todos/TodosContainer';
 
 type loggedInPageProps = {
@@ -14,6 +16,8 @@ type loggedInPageProps = {
 };
 
 const logged: NextPage<loggedInPageProps> = ({ session }) => {
+	const [refreshTodoToken, setRefreshTodoToken] = useState<string>('');
+
 	return (
 		<Container py={`64px`}>
 			<Center>
@@ -21,7 +25,10 @@ const logged: NextPage<loggedInPageProps> = ({ session }) => {
 					<Text mb={`24px`}>Welcome back - {session?.user.name}! 😍</Text>
 					<Button onClick={() => signOut()}>Log out</Button>
 
-					<TodosContainer />
+					<TodoCreator
+						onTodoCreated={() => setRefreshTodoToken(Math.random().toString())}
+					/>
+					<TodosContainer refreshTodoToken={refreshTodoToken} />
 				</Flex>
 			</Center>
 		</Container>
